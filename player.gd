@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed:float = 130
+var speed:float = 80
 var speed_multiplier = 1
 
 var player_input:Vector2
@@ -65,11 +65,11 @@ func get_closest_item(list):
 				closest_distance = d
 
 func move(direction: Vector2):
-	#if direction and player_sprite.animation != "run":
-		#player_sprite.animation = "run"
-	#elif direction == Vector2.ZERO:
-		#if player_sprite.animation != "idle":
-			#player_sprite.animation = "idle"
+	if direction and player_sprite.animation != "run":
+		player_sprite.animation = "run"
+	elif direction == Vector2.ZERO:
+		if player_sprite.animation != "idle":
+			player_sprite.animation = "idle"
 	velocity = player_input.normalized() * speed * speed_multiplier
 
 func aim(target: Vector2):
