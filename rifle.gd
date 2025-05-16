@@ -8,7 +8,7 @@ extends Weapon
 
 func attack(dir: Vector2, friendly: bool = true):
 	var b : Area2D = bullet.instantiate()
-	get_parent().get_parent().get_parent().add_child(b)
+	get_tree().current_scene.add_child(b)
 	b.global_position = shootPoint.global_position
 	b.set_vel(dir.normalized() * bullet_speed)
 	b.set_torque(20)

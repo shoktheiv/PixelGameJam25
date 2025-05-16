@@ -6,19 +6,25 @@ var speed_multiplier = 1
 var player_input:Vector2
 
 var weapon_ref := []
-var throwable_ref := []
 
 var current_weapon: Weapon = null
+
+@export var starting_gun : Weapon
 
 @onready var player_sprite = $sprite
 @onready var player_hand = $hand
 @onready var player_feet = $feet
 @export var player_steps_fx : PackedScene
 
+func _ready() -> void:
+	weapon_ref.append(starting_gun)
+	await get_tree().process_frame
+	pick_up_weapon()
+
 func _process(delta: float) -> void:
 	player_input = Vector2(Input.get_axis("left", "right"), Input.get_axis("up", "down"))
 	
-	if Input.is_action_just_pressed("pickup"):
+	if Input.is_action_just_pressed("pick_up"):
 		pick_up_weapon()
 	
 	if Input.is_action_pressed("fire") and current_weapon != null:
@@ -40,7 +46,7 @@ func pick_up_weapon():
 	var closest_gun : Weapon = get_closest_item(weapon_ref)
 	
 	if current_weapon != null: 
-		current_weapon.reparent(get_parent())
+		current_weapon.reparent(get_tree().current_scene)
 	
 	
 	current_weapon = closest_gun
@@ -55,7 +61,7 @@ func pick_up_weapon():
 func get_closest_item(list):
 	if list.size() == 0: return
 	var closest_item: Weapon = list[0]
-	var closest_distance: float = get_distance(global_position,list[0].global_position)
+	var closest_distance: float = get_distance(global_position, list[0].global_position)
 	
 	for i in list:
 		if i != closest_item:
@@ -63,6 +69,7 @@ func get_closest_item(list):
 			if closest_distance > d:
 				closest_item = i
 				closest_distance = d
+	return closest_item
 
 func move(direction: Vector2):
 	if direction and player_sprite.animation != "run":

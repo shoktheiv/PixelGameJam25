@@ -1,11 +1,16 @@
 extends Area2D
 
+@export var max_health : float = 100
+var health : float = 0
 
-# Called when the node enters the scene tree for the first time.
+var grid_pos : Vector2i
+
 func _ready() -> void:
-	pass # Replace with function body.
+	health = max_health
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func take_damage(damage: float):
+	health -= damage
+	
+	if health <= 0:
+		perlin_noise.public.tile_remove(self)
+		queue_free()
