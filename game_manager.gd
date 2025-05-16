@@ -43,4 +43,3 @@ func spawn_cannon(pos : Node2D):
 	pos.add_child(can)
 	can.position = Vector2.ZERO
 	defences.set(pos.global_position, can)
-	print(defences)
