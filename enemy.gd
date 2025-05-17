@@ -8,6 +8,8 @@ extends Node2D
 @export var max_health : float = 100
 var health : float = 0
 
+var speed_multiplier : float = 1.0
+
 var target: Node2D
 var time_since_attack := 0.0
 
@@ -25,7 +27,7 @@ func _physics_process(delta):
 	var distance = global_position.distance_to(target.global_position)
 
 	if distance > attack_range:
-		position += direction * speed * delta
+		position += direction * speed * delta * speed_multiplier
 	else:
 		time_since_attack += delta
 		if time_since_attack >= attack_cooldown:

@@ -7,9 +7,10 @@ func _ready() -> void:
 	attack()
 
 func shoot():
+	sprite.speed_scale = 1.0 / attack_speed_multiplier
 	sprite.play("fire")
 	
-	await get_tree().create_timer(animation_time).timeout
+	await get_tree().create_timer(animation_time * attack_speed_multiplier).timeout
 	
 	for i : Node2D in shooters.get_children():
 		var b : Node2D = bullet.instantiate()
@@ -18,7 +19,7 @@ func shoot():
 		var vel = (i.global_position - shooters.global_position).normalized() * bullet_speed
 		b.start(vel, damage, bullet_lifetime)
 	
-	await get_tree().create_timer(time_between_attacks).timeout
+	await get_tree().create_timer(time_between_attacks * attack_speed_multiplier).timeout
 	
 	should_attack = true
 	attack()

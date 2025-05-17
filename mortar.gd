@@ -8,9 +8,9 @@ func shoot():
 	if get_closest_enemy() != null:
 		var enem = get_closest_enemy().global_position
 		
-		sprite.play("fire")
+		sprite.play("fire", 1/attack_speed_multiplier * animation_fps)
 		
-		await get_tree().create_timer(animation_time).timeout
+		await get_tree().create_timer(animation_time * attack_speed_multiplier).timeout
 		
 		var b = bullet.instantiate()
 		get_tree().current_scene.add_child(b)
@@ -18,7 +18,7 @@ func shoot():
 		b.target_position = enem
 		b.damage = damage
 	
-	await get_tree().create_timer(time_between_attacks).timeout
+	await get_tree().create_timer(time_between_attacks * attack_speed_multiplier).timeout
 	should_attack = true
 	attack()
 

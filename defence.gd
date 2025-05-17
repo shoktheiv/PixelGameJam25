@@ -10,11 +10,11 @@ class_name defence
 @export var detect_radius : Area2D
 @export var time_between_attacks : float
 @export var animation_time : float
-@export var sprite : Node2D
+@export var sprite : AnimatedSprite2D
+@export var animation_fps : int = 5
 
 var should_attack = false
-
-
+var attack_speed_multiplier = 1
 
 func _physics_process(delta: float) -> void:
 	if detect_radius == null: return
