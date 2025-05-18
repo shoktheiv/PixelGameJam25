@@ -8,7 +8,8 @@ func shoot():
 	if get_closest_enemy() != null:
 		var enem = get_closest_enemy().global_position
 		
-		sprite.play("fire", 1/attack_speed_multiplier * animation_fps)
+		sprite.speed_scale = 1.0 / attack_speed_multiplier
+		sprite.play("fire")
 		
 		await get_tree().create_timer(animation_time * attack_speed_multiplier).timeout
 		

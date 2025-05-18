@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pick_up"):
 		pick_up_weapon()
 	
-	if Input.is_action_pressed("fire") and current_weapon != null:
+	if Input.is_action_pressed("fire") and current_weapon != null and game_manager.public.cannon == null:
 		fire(get_global_mouse_position())
 
 func _physics_process(delta: float) -> void:

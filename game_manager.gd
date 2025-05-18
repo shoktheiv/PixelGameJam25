@@ -7,7 +7,7 @@ class_name game_manager
 @export var player : CharacterBody2D
 @export var camera : Camera2D
 
-@export var cannon : PackedScene
+@export var cannon : Node2D
 @onready var mouse_collision =  $MouseArea
 
 var defences: Dictionary = {}
@@ -29,17 +29,22 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	mouse_collision.global_position = get_global_mouse_position()
-	
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+	if cannon != null:
 		if mouse_collision.get_overlapping_areas().size() > 0:
-			if !defences.has(mouse_collision.get_overlapping_areas()[0].global_position):
-				spawn_cannon(mouse_collision.get_overlapping_areas()[0])
+			cannon.global_position = mouse_collision.get_overlapping_areas()[0].global_position
+			if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+				if !defences.has(mouse_collision.get_overlapping_areas()[0].global_position):
+					spawn_cannon(mouse_collision.get_overlapping_areas()[0])
 			
 
 func spawn_cannon(pos : Node2D):
-	var can : Node2D = cannon.instantiate()
-	can.global_position = pos.global_position
-	
-	pos.add_child(can)
-	can.position = Vector2.ZERO
-	defences.set(pos.global_position, can)
+	cannon.global_position = pos.global_position
+	defences.set(pos.global_position, cannon)
+	cannon.set_state(defence.State.DEPLOYED)
+	cannon.reparent(pos)
+	cannon = null
+
+func set_picking_cannon(item : Item):
+	cannon = item.scene.instantiate()
+	get_tree().current_scene.add_child(cannon)
+	cannon.set_state(defence.State.BEING_LOCATED)
