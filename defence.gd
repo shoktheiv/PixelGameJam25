@@ -15,7 +15,7 @@ class_name defence
 enum State { BEING_LOCATED, DEPLOYED }
 var current_state : State = State.BEING_LOCATED
 
-var should_attack = false
+var should_attack = true
 var attack_speed_multiplier = 1
 
 func _physics_process(delta: float) -> void:
@@ -25,18 +25,13 @@ func _physics_process(delta: float) -> void:
 	if detect_radius == null:
 		return
 
-	if detect_radius.get_overlapping_areas().is_empty():
-		should_attack = false
+	should_attack = not detect_radius.get_overlapping_areas().is_empty()
 
 func attack():
 	if current_state != State.DEPLOYED:
 		return
-
-	if not should_attack:
-		return
-
+		
 	call("shoot")
-	should_attack = false
 
 func get_closest_enemy() -> Node2D:
 	if current_state != State.DEPLOYED:
@@ -65,7 +60,9 @@ func set_state(new_state: State) -> void:
 		State.DEPLOYED:
 			if sprite:
 				var color = sprite.modulate
-				should_attack = true
 				attack()
 				color.a = 1.0
 				sprite.modulate = color
+
+func get_state() -> State:
+	return current_state

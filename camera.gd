@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	global_position = lerp(global_position, my_pos, 0.05)
 	
 	var desired_zoom : float = default_zoom / (player_speed + 1)
-	desired_zoom = clamp(desired_zoom, 5, 10)
+	desired_zoom = clamp(desired_zoom, 7, 10)
 	zoom = lerp(zoom, Vector2(desired_zoom, desired_zoom), zoom_speed)
 	
 	if shake_duration > 0:

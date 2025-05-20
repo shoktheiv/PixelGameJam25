@@ -27,4 +27,5 @@ func _on_area_entered(area: Area2D) -> void:
 	if current_state != State.DEPLOYED:
 		return
 	if area is defence:
-		area.attack_speed_multiplier = 0.2
+		if area.get_state() == defence.State.DEPLOYED:
+			area.attack_speed_multiplier = 0.2

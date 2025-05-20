@@ -27,21 +27,20 @@ func _ready():
 	start_next_wave()
 
 func start_next_wave():
-	if current_wave >= max_waves:
-		return
-
-	current_wave += 1
-	zombies_spawned = 0
-	spawning = true
-	
-	await spawn_wave()
-	
-	spawning = false
-	await get_tree().create_timer(time_between_waves).timeout
-	start_next_wave()
+	while true:
+		current_wave += 1
+		zombies_spawned = 0
+		spawning = true
+		
+		canvas.public.wave_text.text = "Wave " + str(current_wave)
+		
+		await spawn_wave()
+		
+		spawning = false
+		await get_tree().create_timer(time_between_waves).timeout
 
 func spawn_wave():
-	while zombies_spawned < zombies_per_wave + current_wave: # Increasing difficulty
+	while zombies_spawned < zombies_per_wave + current_wave:
 		spawn_zombie()
 		zombies_spawned += 1
 		await get_tree().create_timer(spawn_interval).timeout

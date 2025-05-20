@@ -11,6 +11,8 @@ var health : float = 0
 
 var speed_multiplier : float = 1.0
 
+var is_visible : bool = false
+
 var target: Node2D
 var time_since_attack := 0.0
 
@@ -32,11 +34,13 @@ func _physics_process(delta):
 	var distance = global_position.distance_to(target.global_position)
 
 	if distance > attack_range:
+		is_visible = false
 		if is_attacking == true:
 			$sprite.play("default")
 			is_attacking = false
 		position += direction * speed * delta * speed_multiplier
 	else:
+		is_visible = true
 		if (is_attacking == false):
 			$sprite.play("attack")
 			is_attacking = true
@@ -45,6 +49,13 @@ func _physics_process(delta):
 		if time_since_attack >= attack_cooldown:
 			attack_target()
 			time_since_attack = 0.0
+	
+	if is_visible == false:
+		$Area2D.monitorable = false
+		modulate.a = lerp(modulate.a, 0.0, 0.1)
+	else:
+		$Area2D.monitorable = true
+		modulate.a = lerp(modulate.a, 1.0, 0.1)
 
 func attack_target():
 	if target.has_method("take_damage"):

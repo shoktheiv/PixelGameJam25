@@ -4,8 +4,7 @@ extends defence
 
 
 func shoot():
-	
-	if get_closest_enemy() != null:
+	if get_closest_enemy() != null && should_attack:
 		var enem = get_closest_enemy().global_position
 		
 		sprite.speed_scale = 1.0 / attack_speed_multiplier
@@ -18,12 +17,7 @@ func shoot():
 		b.start_position = shootPoint.global_position
 		b.target_position = enem
 		b.damage = damage
+		should_attack = false
 	
 	await get_tree().create_timer(time_between_attacks * attack_speed_multiplier).timeout
-	should_attack = true
-	attack()
-
-func _on_area_2d_2_area_entered(area: Area2D) -> void:
-	if should_attack == false:
-		should_attack = true
-		attack()
+	attack()  
