@@ -10,11 +10,12 @@ func _on_mouse_entered() -> void:
 		owner.set_description(item)
 
 
-
 func _on_button_pressed() -> void:
 	if game_manager.public.player_coins < item.cost:
+		$ColorRect.show()
+		await get_tree().create_timer(0.5).timeout
+		$ColorRect.hide()
 		return
-	
 	game_manager.public.set_picking_cannon(item)
 	get_parent().get_parent().get_parent().hide_defences()
 

@@ -28,7 +28,7 @@ func generate_map():
 	map_width = game_manager.public.map_width
 	
 	noise.seed = randi()
-	noise.frequency = 0.1
+	noise.frequency = 0.05
 	var center = Vector2(map_width / 2, map_height / 2)
 	game_manager.public.camera.global_position = center * tile_size
 	

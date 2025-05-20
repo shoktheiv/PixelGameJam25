@@ -5,6 +5,7 @@ extends Node2D
 @export var attack_cooldown := 1.0
 @export var damage:float = 10
 @export var coins_dropped_range : Array[int]
+@export var attack_effect : PackedScene
 
 @export var max_health : float = 100
 var health : float = 0
@@ -22,8 +23,11 @@ func _ready() -> void:
 func _physics_process(delta):
 	if target == null: 
 		target = spawner.public.find_closest_fence(global_position)
+		if target == null:
+			return
 		var flip = target.global_position.x < global_position.x
 		$sprite.flip_h = flip
+	
 	
 	if target == null: 
 		queue_free()
@@ -48,11 +52,19 @@ func _physics_process(delta):
 
 func attack_target():
 	if target.has_method("take_damage"):
+		var b = attack_effect.instantiate()
+		add_child(b)
+		b.global_position = $hand.global_position
+		b.rotation = (target.global_position - global_position).normalized().angle()
 		target.take_damage(damage)
 
 	
-func take_damage(damage : float):
+func take_damage(damage : float, b_pos: Vector2, knock_back: float):
 	health -= damage
+	
+	$sprite.modulate.v = 0.01
+	await get_tree().create_timer(0.3).timeout
+	$sprite.modulate.v = 1
 	
 	if health <= 0:
 		die()

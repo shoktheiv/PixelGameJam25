@@ -3,13 +3,15 @@ extends Weapon
 @export var attack_speed: float 
 @export var spread: float
 @export var attack_duration: float
-@export var damage:float = 100
+@export var damage:float = 30
 
 var attack_remaining: float = 0.0
 var starting_rotation: float = 0.0
 var end_rotation: float = 0.0
 
 var is_attacking = false
+
+var cannot_attack = []
 
 func attack(dir: Vector2, friendly: bool = true):
 	is_attacking = true
@@ -29,9 +31,12 @@ func _physics_process(delta: float) -> void:
 		get_parent().rotation = new_rot 
 		attack_remaining -= delta
 		for i in $HurtBox.get_overlapping_areas():
-			i.get_parent().take_damage(damage)
+			if not i in cannot_attack:
+				i.get_parent().take_damage(damage, get_parent().global_position, 10)
+				cannot_attack.append(i)
 	else:
 		is_attacking = false
+		cannot_attack.clear()
 
 func _on_fire_rate_timeout() -> void:
 	can_attack = true 

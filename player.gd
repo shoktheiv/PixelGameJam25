@@ -29,6 +29,15 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("fire") and current_weapon != null and game_manager.public.cannon == null:
 		fire(get_global_mouse_position())
+	
+	if $PickUpArea.get_overlapping_areas().is_empty():
+		var newpos = spawner.public.find_closest_fence(global_position)
+		
+		if newpos == null:
+			dead()
+			return
+		global_position = newpos.global_position
+		
 
 func _physics_process(delta: float) -> void:
 	if current_weapon != null:
@@ -109,18 +118,12 @@ func handle_recoil(dir: Vector2):
 	move_and_slide()
 	
 
-func _on_pick_up_area_area_entered(area: Area2D) -> void:
-	if area.get_parent() is Weapon:
-		if area.get_parent() as Weapon != current_weapon:
-			weapon_ref.append(area.get_parent() as Weapon)
-
 func weapon_dropped():
 	current_weapon = null
 
 func throw():
 	pass
-	
 
-func _on_pick_up_area_area_exited(area: Area2D) -> void:
-	if area.get_parent() is Weapon:
-		weapon_ref.erase(area.get_parent() as Weapon)
+func dead():
+	canvas.public.die()
+	Engine.time_scale = 0.0

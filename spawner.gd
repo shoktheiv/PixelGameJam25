@@ -3,6 +3,7 @@ extends Node2D
 class_name spawner
 
 @export var zombie_scene: PackedScene
+@export var ghost_scene : PackedScene
 @export var spawn_interval := 1.5
 @export var time_between_waves := 20
 @export var zombies_per_wave := 1
@@ -46,7 +47,14 @@ func spawn_wave():
 		await get_tree().create_timer(spawn_interval).timeout
 
 func spawn_zombie():
-	var zombie = zombie_scene.instantiate()
+	var ran = randf()
+	var zombie
+	
+	if ran > 0.7:
+		zombie = ghost_scene.instantiate()
+	else:
+		zombie = zombie_scene.instantiate()
+	
 	get_tree().current_scene.add_child(zombie)
 	
 	var n = randf_range(-PI, PI)

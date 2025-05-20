@@ -18,7 +18,7 @@ var defences: Dictionary = {}
 
 static var public : game_manager
 
-var player_coins := 1000
+var player_coins := 0
 
 func _enter_tree() -> void:
 	public = self
@@ -26,7 +26,6 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	public = self
 	perlin_noise.generate_map()
-	spawner.start_next_wave()
 	
 
 func _process(delta: float) -> void:
@@ -49,4 +48,5 @@ func spawn_cannon(pos : Node2D):
 func set_picking_cannon(item : Item):
 	cannon = item.scene.instantiate()
 	get_tree().current_scene.add_child(cannon)
+	player_coins -= item.cost
 	cannon.set_state(defence.State.BEING_LOCATED)

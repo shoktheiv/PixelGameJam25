@@ -22,5 +22,5 @@ func _on_timer_timeout() -> void:
 
 
 func _on_area_entered(area: Area2D) -> void:
-	area.get_parent().take_damage(damage)
+	area.get_parent().take_damage(damage, global_position, 4)
 	queue_free()

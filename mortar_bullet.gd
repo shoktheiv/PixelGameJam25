@@ -4,6 +4,7 @@ extends Sprite2D
 @export var max_height := 100.0  # how high the arc goes
 @export var target_position: Vector2
 @export var area : Area2D
+@export var exp_fx :PackedScene
 
 var start_position: Vector2
 var time_passed := 0.0
@@ -32,6 +33,10 @@ func _process(delta):
 
 func explode():
 	for i in area.get_overlapping_areas():
-		i.get_parent().take_damage(damage)
+		i.get_parent().take_damage(damage, global_position, 5)
+	mainCamera.shake_once(0.4, 10)
+	var b = exp_fx.instantiate()
+	get_tree().current_scene.add_child(b)
+	b.global_position = global_position
 	queue_free()
 	

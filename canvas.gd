@@ -5,6 +5,9 @@ class_name canvas
 @export var description : NinePatchRect
 @export var wave_text : Label
 @export var coin_text : Label
+
+@export var died_ui : NinePatchRect
+
 var selected_item : Item
 
 var desc_active := false
@@ -38,3 +41,9 @@ func _on_defences_button_button_down() -> void:
 		desc_active = true
 	else:
 		hide_defences()
+
+func die():
+	died_ui.show()
+
+func _on_play_again_pressed() -> void:
+	get_tree().reload_current_scene()
