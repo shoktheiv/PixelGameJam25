@@ -18,7 +18,7 @@ var defences: Dictionary = {}
 
 static var public : game_manager
 
-var player_coins := 0
+var player_coins := 1000
 
 func _enter_tree() -> void:
 	public = self
