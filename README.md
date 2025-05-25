@@ -1,4 +1,4 @@
-# Pixel Game Jam 25 Project
+# Dead Of Defence
 
 ![Game Banner/Logo](https://img.itch.zone/aW1nLzIxMjc4NjM2LnBuZw==/360x286%23c/jaQ0o9.png)
 
