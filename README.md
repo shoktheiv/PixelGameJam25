@@ -2,7 +2,7 @@
 
 ![Game Banner/Logo](https://img.itch.zone/aW1nLzIxMjc4NjM2LnBuZw==/360x286%23c/jaQ0o9.png)
 
-A game created for [Pixel Game Jam 25](https://itch.io/jam/pixel-game-jam-25) by ShokTheIV
+A game created for [Pixel Game Jam 25](https://itch.io/jam/-pixel-game-jam-2025) by ShokTheIV
 
 ## About the Game
 
